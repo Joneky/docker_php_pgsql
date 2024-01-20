@@ -1,0 +1,19 @@
+user:
+  path: '/user'
+  controller: App\Controller\UserController::index
+
+user_create:
+  path: '/user/create'
+  controller: App\Controller\UserController::create
+
+user_show:
+  path: '/user/{id}'
+  controller: App\Controller\UserController::show
+
+user_edit:
+  path: '/user/{id}/edit'
+  controller: App\Controller\UserController::edit
+
+user_delete:
+  path: '/user/{id}/delete'
+  controller: App\Controller\UserController::delete

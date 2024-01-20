@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+    volumes:
+      - ./www:/www
+    ports:
+      - "8881:81"
+    container_name: d_nginx
+    depends_on:
+      - php-fpm
+    restart: always
+    networks:
+      - myProject
+    links:
+      - php-fpm
+
+  php-fpm:
+    image: php-fpm:latest
+    build:
+      context: docker/php-fpm
+    restart: always
+    container_name: d_php
+    depends_on:
+      - postgres
+    networks:
+      - myProject
+    volumes:
+      - ./www:/www
+
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: d_postgres
+    environment:
+      POSTGRES_ROOT_PASSWORD: "root"
+      POSTGRES_DB: "symfony"
+      POSTGRES_USER: "symfony"
+      POSTGRES_PASSWORD: "secret"
+
+    ports:
+      - "3337:3386"
+    networks:
+      - myProject
+
+networks:
+  myProject:
+    driver: bridge
